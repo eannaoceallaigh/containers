@@ -34,7 +34,7 @@ jobs:
 
       - name: Build and push Docker images - Ansible
         id: push_ansible
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: docker/ansible
           platforms: linux/amd64, linux/arm64

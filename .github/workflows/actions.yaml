@@ -34,7 +34,7 @@ jobs:
 
       - name: Build and push Docker images - Actions
         id: push_git
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: docker/actions
           platforms: linux/amd64
