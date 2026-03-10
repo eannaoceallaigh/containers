@@ -1,0 +1,48 @@
+{
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/inventory.yaml/"
+      ],
+      "matchStrings": [
+        "k3s_version:\\s*(?<currentValue>\\S+)"
+      ],
+      "depNameTemplate": "k3s",
+      "versioningTemplate": "semver-coerced",
+      "datasourceTemplate": "custom.k3s"
+    }
+  ],
+  "customDatasources": {
+    "k3s": {
+      "defaultRegistryUrlTemplate": "https://update.k3s.io/v1-release/channels",
+      "transformTemplates": [
+        "{\"releases\":[{\"version\": $$.(data[id = 'stable'].latest),\"sourceUrl\":\"https://github.com/k3s-io/k3s\",\"changelogUrl\":$join([\"https://github.com/k3s-io/k3s/releases/tag/\",data[id = 'stable'].latest])}],\"sourceUrl\": \"https://github.com/k3s-io/k3s\",\"homepage\": \"https://k3s.io/\"}"
+      ]
+    }
+  },
+  "extends": [
+    "config:recommended"
+  ],
+  "ignorePaths": [
+    "terraform/**",
+    ".github/**"
+  ],
+  "flux": {
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ],
+    "includePaths": [
+      "kubernetes/**"
+    ]
+  },
+  "kustomize": {
+    "includePaths": [
+      "kubernetes/**"
+    ]
+  },
+  "packageRules": [],
+  "reviewers": [
+    "hippogriffin"
+  ]
+}
