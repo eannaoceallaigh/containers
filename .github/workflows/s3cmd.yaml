@@ -1,0 +1,40 @@
+name: Publish s3cmd Docker image
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 1 * * 1'
+
+jobs:
+  build-and-push-image:
+    name: Push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker images - s3cmd
+        id: push_s3cmd
+        uses: docker/build-push-action@v5
+        with:
+          context: docker/s3cmd
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/eannaoceallaigh/ubuntu-2204-s3cmd:latest
+      
