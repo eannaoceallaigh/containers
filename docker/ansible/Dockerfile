@@ -32,7 +32,7 @@ RUN apt-get update \
        ssh \
        sshpass \
        software-properties-common \
-       rsyslog systemd systemd-cron sudo iproute2 \
+       rsyslog systemd systemd-cron iproute2 \
        unzip \
     && apt-get clean \
     && rm -Rf /var/lib/apt/lists/* \
